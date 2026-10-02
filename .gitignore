@@ -1,0 +1,13 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+!.env.example
+/backend/*.db
+/backend/*.db-shm
+/backend/*.db-wal
+/Tatkal/
+/Tatkal Rush/

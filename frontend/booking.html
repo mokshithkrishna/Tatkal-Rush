@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings &amp; PNR Status — TATKAL RUSH</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    .booking-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .pnr-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .pnr-card:hover {
+      box-shadow: var(--shadow);
+      border-color: #93c5fd;
+    }
+    .pnr-badge {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--primary);
+      font-family: var(--mono);
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Utility Bar (Government Style) -->
+<div class="top-utility-bar">
+  <div class="utility-left">
+    <span class="utility-gov-badge">🇮🇳 PROTOTYPE</span>
+    <span>Ministry of Railways Demo &bull; Government of India Demonstration</span>
+  </div>
+  <div class="utility-right">
+    <span class="utility-link" onclick="toast.info('Help', 'Demo Helpline: 139')">📞 Help &amp; Support</span>
+    <span>&bull;</span>
+    <span class="utility-link" onclick="toast.info('Language', 'Default language set to English (EN)')">English | हिंदी</span>
+    <span>&bull;</span>
+    <a href="/login" class="utility-link" style="color:#fcd34d;">🔑 Login / Register</a>
+  </div>
+</div>
+
+<!-- Main Header -->
+<header class="header">
+  <a href="/" class="logo">
+    <div class="logo-icon">🚆</div>
+    <div class="logo-text">
+      <span class="logo-title">TATKAL RUSH</span>
+      <span class="logo-sub">One Train. Thousands of Users. Zero Double Booking.</span>
+    </div>
+  </a>
+  <nav class="nav">
+    <a href="/">🚆 Book Ticket</a>
+    <a href="/#stageSearch">🔍 Train Search</a>
+    <a href="/booking" class="active">📋 My Bookings</a>
+    <a href="/dashboard" class="nav-live">⚡ Live Tatkal Rush</a>
+    <a href="/dashboard">📊 System Dashboard</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span class="ticker-inner">
+    &nbsp;&nbsp;&nbsp;📋 <strong>MY BOOKINGS &amp; PNR STATUS</strong> &bull; Instant 10-Digit PNR Lookup &bull; Verified Digital E-Tickets &bull; Zero Double Booking Architecture
+  </span>
+</div>
+
+<main class="main">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <h1 style="font-size:1.8rem;font-weight:900;color:var(--primary);">📋 Railway Bookings &amp; PNR Status</h1>
+      <p style="color:var(--text-muted);font-size:0.9rem;">View, print, download, or cancel your confirmed Tatkal tickets</p>
+    </div>
+    <a href="/" class="btn btn-accent btn-lg">+ Book New Ticket</a>
+  </div>
+
+  <!-- PNR Search Bar -->
+  <div class="card" style="padding:1.5rem 2rem;margin-bottom:2rem;">
+    <form onsubmit="event.preventDefault(); searchPnr(event);" style="display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;">
+      <div class="form-group" style="flex:1;min-width:280px;">
+        <label for="pnrLookupInput">Look up by 10-Digit PNR Number</label>
+        <input type="text" id="pnrLookupInput" placeholder="Enter PNR (e.g. TR0156247975)" style="font-family:var(--mono);font-size:1.05rem;letter-spacing:1px;">
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">
+        🔍 CHECK TICKET STATUS
+      </button>
+    </form>
+  </div>
+
+  <!-- Bookings List -->
+  <h2 style="font-size:1.2rem;font-weight:800;color:var(--primary);margin-bottom:1.25rem;">My Confirmed Tickets</h2>
+  <div class="booking-cards-grid" id="myBookingsContainer">
+    <div style="text-align:center;color:var(--text-muted);grid-column:1/-1;padding:2rem;">Loading bookings…</div>
+  </div>
+
+  <!-- Live System Monitor -->
+  <div class="card">
+    <div class="card-header-bar">
+      <div class="card-title">📊 Live Booking &amp; Inventory Operations</div>
+      <span style="font-size:0.8rem;color:var(--text-muted);font-weight:700;">WebSocket Live Feed</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:1rem;">
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;border-left:4px solid var(--primary);border:1px solid var(--border-light);border-left-width:4px;">
+        <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;">TOTAL REQUESTS</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--primary);" id="monTotal">0</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;border-left:4px solid var(--success);border:1px solid var(--border-light);border-left-width:4px;">
+        <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;">TATKAL AVAILABLE</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--success-dark);" id="monAvail">5</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;border-left:4px solid var(--accent);border:1px solid var(--border-light);border-left-width:4px;">
+        <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;">HELD BERTHS (5m)</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--accent-dark);" id="monHeld">0</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;border-left:4px solid var(--secondary);border:1px solid var(--border-light);border-left-width:4px;">
+        <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;">BOOKED SEATS</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--secondary);" id="monBooked">0</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;border-left:4px solid var(--success);border:1px solid var(--border-light);border-left-width:4px;">
+        <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;">DOUBLE BOOKINGS</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--success-dark);" id="monDbl">0 ✓</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Ticket View Modal -->
+<div id="ticketModal" class="modal-overlay">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem;">
+      <button type="button" class="btn btn-outline" style="background:#fff;padding:0.4rem 1rem;" onclick="closeTicketModal()">✕ Close Window</button>
+    </div>
+    <div id="modalTicketBody"></div>
+  </div>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="/static/app.js"></script>
+<script>
+  // ── Live Feed ─────────────────────────────────────────────────────────
+  const feed = new LiveFeed(
+    (metrics) => {
+      document.getElementById('monTotal').textContent = (metrics.total_requests || 0).toLocaleString();
+      document.getElementById('monAvail').textContent = metrics.available_seats ?? 5;
+      document.getElementById('monHeld').textContent = metrics.held_seats ?? 0;
+      document.getElementById('monBooked').textContent = metrics.booked_seats ?? 0;
+      document.getElementById('monDbl').textContent = `${metrics.double_booking_attempts_prevented ?? 0} prevented`;
+    },
+    null,
+    null
+  );
+
+  // ── Load My Bookings ──────────────────────────────────────────────────
+  async function loadMyBookings() {
+    try {
+      const data = await apiGet('/api/my-bookings');
+      renderBookingsList(data.bookings || []);
+    } catch (e) {
+      document.getElementById('myBookingsContainer').innerHTML = `
+        <div style="text-align:center;color:var(--text-muted);grid-column:1/-1;padding:2rem;">No bookings found yet. Book a ticket on the home page!</div>
+      `;
+    }
+  }
+
+  function renderBookingsList(bookings) {
+    const container = document.getElementById('myBookingsContainer');
+    if (!bookings || bookings.length === 0) {
+      container.innerHTML = `
+        <div class="card" style="text-align:center;color:var(--text-muted);grid-column:1/-1;padding:3rem;">
+          No bookings found. Try booking a Tatkal seat on the <a href="/" style="color:var(--primary);font-weight:700;text-decoration:underline;">Home Page</a>!
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = bookings.map(b => {
+      const isConfirmed = b.status === 'CONFIRMED';
+      const isCancelled = b.status === 'CANCELLED';
+
+      return `
+        <div class="pnr-card fade-in">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <span class="pnr-badge">${b.pnr}</span>
+            <span class="avail-chip ${isConfirmed ? 'avail-green' : (isCancelled ? 'avail-red' : '')}">
+              ${isConfirmed ? '✓ CONFIRMED' : b.status}
+            </span>
+          </div>
+
+          <div style="font-weight:800;font-size:1.1rem;color:var(--primary);">${b.train_number} — ${b.train_name}</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;margin:0.25rem 0 1rem;">
+            ${b.source} → ${b.destination} &bull; ${b.journey_date || '15 Oct 2026'}
+          </div>
+
+          <div style="background:var(--surface2);padding:0.85rem;border-radius:8px;margin-bottom:1rem;font-size:0.85rem;border:1px solid var(--border-light);">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span>Class &amp; Quota:</span>
+              <strong>${b.seat_class} (Tatkal)</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span>Coach &amp; Berths:</span>
+              <strong style="color:var(--secondary);">${b.coach || 'B1'} — ${b.seat_number}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;">
+              <span>Total Fare:</span>
+              <strong>₹${(b.total_fare || 1245).toLocaleString('en-IN')}</strong>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:0.75rem;">
+            <button type="button" class="btn btn-primary" style="flex:1;padding:0.45rem;" onclick="viewTicket('${b.pnr}')">
+              🎫 VIEW TICKET
+            </button>
+            ${isConfirmed ? `
+              <button type="button" class="btn btn-outline" style="padding:0.45rem;color:var(--danger);border-color:var(--danger-border);" onclick="cancelBooking('${b.pnr}')">
+                CANCEL
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── View Full Ticket Modal ────────────────────────────────────────────
+  async function viewTicket(pnr) {
+    try {
+      const data = await apiGet(`/api/ticket/${pnr}`);
+      renderDigitalTicket(data.ticket, 'modalTicketBody');
+      document.getElementById('ticketModal').classList.add('active');
+    } catch (e) {
+      toast.error('Ticket Error', `Could not fetch ticket for PNR ${pnr}`);
+    }
+  }
+
+  function closeTicketModal() {
+    document.getElementById('ticketModal').classList.remove('active');
+  }
+
+  // ── Search by PNR ─────────────────────────────────────────────────────
+  async function searchPnr() {
+    const pnr = document.getElementById('pnrLookupInput').value.trim().toUpperCase();
+    if (!pnr) {
+      toast.error('Missing PNR', 'Please enter a 10-digit PNR number.');
+      return;
+    }
+    viewTicket(pnr);
+  }
+
+  // ── Cancel Booking ────────────────────────────────────────────────────
+  async function cancelBooking(pnr) {
+    if (!confirm(`Are you sure you want to cancel PNR ${pnr}? The seat will be immediately released back to available inventory.`)) return;
+
+    try {
+      const res = await apiPost('/api/cancel-booking', { pnr });
+      toast.success('Cancelled', res.reason || `Booking ${pnr} cancelled.`);
+      loadMyBookings();
+    } catch (e) {
+      toast.error('Cancel Failed', e.data?.detail?.reason || 'Error cancelling booking.');
+    }
+  }
+
+  loadMyBookings();
+</script>
+</body>
+</html>

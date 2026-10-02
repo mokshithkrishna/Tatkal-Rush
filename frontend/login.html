@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TATKAL RUSH — Official Railway Portal Login</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    .login-wrapper {
+      min-height: calc(100vh - 160px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+    .login-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      max-width: 460px;
+      width: 100%;
+      padding: 2.5rem;
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+    .demo-creds-box {
+      background: var(--primary-subtle);
+      border: 1.5px dashed #3b82f6;
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: #1e40af;
+    }
+    .demo-creds-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-family: var(--mono);
+      font-weight: 700;
+    }
+    .disclaimer-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 1.5rem;
+      line-height: 1.4;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-light);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Utility Bar (Government Style) -->
+<div class="top-utility-bar">
+  <div class="utility-left">
+    <span class="utility-gov-badge">🇮🇳 PROTOTYPE</span>
+    <span>Ministry of Railways Demo &bull; Government of India Demonstration</span>
+  </div>
+  <div class="utility-right">
+    <span class="utility-link" onclick="toast.info('Help', 'Demo Helpline: 139')">📞 Help &amp; Support</span>
+    <span>&bull;</span>
+    <span class="utility-link" onclick="toast.info('Language', 'Default language set to English (EN)')">English | हिंदी</span>
+  </div>
+</div>
+
+<!-- Main Header -->
+<header class="header">
+  <a href="/" class="logo">
+    <div class="logo-icon">🚆</div>
+    <div class="logo-text">
+      <span class="logo-title">TATKAL RUSH</span>
+      <span class="logo-sub">One Train. Thousands of Users. Zero Double Booking.</span>
+    </div>
+  </a>
+  <nav class="nav">
+    <a href="/">🚆 Book Ticket</a>
+    <a href="/#stageSearch">🔍 Train Search</a>
+    <a href="/booking">📋 My Bookings</a>
+    <a href="/dashboard" class="nav-live">⚡ Live Tatkal Rush</a>
+    <a href="/dashboard">📊 System Dashboard</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span class="ticker-inner">
+    &nbsp;&nbsp;&nbsp;🔐 <strong>TATKAL RUSH AUTHENTICATION</strong> &bull; Demo Credentials Provided for Demonstration &bull; Zero Double Booking Architecture
+  </span>
+</div>
+
+<div class="login-wrapper">
+  <div class="login-card fade-in">
+    <div class="login-header">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;background:var(--primary-subtle);color:var(--primary);border-radius:50%;font-size:1.6rem;margin-bottom:0.75rem;border:1.5px solid #bfdbfe;">
+        🚆
+      </div>
+      <h1 style="font-size: 1.45rem; font-weight: 900; color: var(--primary); letter-spacing: 0.5px;">TATKAL RUSH LOGIN</h1>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Official Government Railway Booking Portal</p>
+    </div>
+
+    <!-- Demo Credentials Notice Box -->
+    <div class="demo-creds-box">
+      <div style="font-weight: 800; font-size: 0.82rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+        <span>ℹ️</span> <span>DEMO CREDENTIALS:</span>
+      </div>
+      <div class="demo-creds-row">
+        <span>Username:</span>
+        <span style="color: var(--primary-dark); cursor: pointer;" onclick="autofillCreds()" title="Click to fill">demo_user</span>
+      </div>
+      <div class="demo-creds-row">
+        <span>Password:</span>
+        <span style="color: var(--primary-dark); cursor: pointer;" onclick="autofillCreds()" title="Click to fill">Tatkal@123</span>
+      </div>
+      <div style="font-size: 0.75rem; color: #2563eb; margin-top: 8px; font-weight: 700; cursor: pointer; text-decoration: underline;" onclick="autofillCreds()">
+        👉 Click here to Auto-Fill Demo Credentials
+      </div>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+      <div class="form-group" style="margin-bottom: 1.25rem;">
+        <label for="loginUsername">Username</label>
+        <input type="text" id="loginUsername" required placeholder="Enter username" value="demo_user">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1.25rem;">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required placeholder="Enter password" value="Tatkal@123">
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.85rem;">
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text);">
+          <input type="checkbox" id="rememberMe" checked>
+          <span>Remember me</span>
+        </label>
+        <span style="color: var(--secondary); font-weight: 700; cursor: pointer;" onclick="autofillCreds()">Auto-Fill</span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg" id="btnLoginSubmit" style="width: 100%; font-size: 1.05rem;">
+        🚪 LOGIN TO RAILWAY PORTAL
+      </button>
+
+      <div id="loginErrorMsg" style="margin-top: 1rem; text-align: center; font-size: 0.85rem; font-weight: 700; display: none;"></div>
+    </form>
+
+    <div class="disclaimer-note">
+      ⚠️ <em>Academic demonstration prototype.</em><br>
+      DO NOT enter real personal passwords or private IRCTC account credentials.
+    </div>
+  </div>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="/static/app.js"></script>
+<script>
+  function autofillCreds() {
+    document.getElementById('loginUsername').value = 'demo_user';
+    document.getElementById('loginPassword').value = 'Tatkal@123';
+    toast.info('Auto-Filled', 'Demo credentials populated.');
+  }
+
+  async function handleLoginSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnLoginSubmit');
+    const errDiv = document.getElementById('loginErrorMsg');
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    const rememberMe = document.getElementById('rememberMe').checked;
+
+    btn.disabled = true;
+    btn.innerHTML = '🔄 Authenticating…';
+    errDiv.style.display = 'none';
+
+    try {
+      const res = await apiPost('/api/auth/login', {
+        username: username,
+        password: password,
+        remember_me: rememberMe,
+      });
+
+      if (res.token) {
+        localStorage.setItem('tatkal_token', res.token);
+        localStorage.setItem('tatkal_user', JSON.stringify(res.user));
+      }
+
+      toast.success('Login Successful', `Welcome, ${res.user.name || username}!`);
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 700);
+
+    } catch (err) {
+      btn.disabled = false;
+      btn.innerHTML = '🚪 LOGIN TO RAILWAY PORTAL';
+      errDiv.style.display = 'block';
+      errDiv.style.color = 'var(--danger)';
+      errDiv.textContent = err.data?.detail?.message || 'Invalid username or password.';
+      toast.error('Authentication Failed', 'Invalid username or password.');
+    }
+  }
+</script>
+</body>
+</html>

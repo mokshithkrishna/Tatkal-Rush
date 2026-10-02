@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TATKAL RUSH — Official Railway Booking Portal</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<!-- Top Utility Bar (Government Style) -->
+<div class="top-utility-bar">
+  <div class="utility-left">
+    <span class="utility-gov-badge">🇮🇳 PROTOTYPE</span>
+    <span>Ministry of Railways Demo &bull; Distributed System Operations</span>
+  </div>
+  <div class="utility-right">
+    <span class="utility-link" onclick="toast.info('Help Desk', '24x7 Demo Helpline: 139 | Email: support@tatkalrush.demo')">📞 Help</span>
+    <span>&bull;</span>
+    <span class="utility-link" onclick="toast.info('Contact', 'Tatkal Concurrency Research Group (PS-06)')">Contact</span>
+    <span>&bull;</span>
+    <span class="utility-link" onclick="toast.info('Language', 'Default language: English (EN)')">English | हिंदी</span>
+    <span>&bull;</span>
+    <a href="/login" class="utility-link" style="color:#fcd34d;">🔑 Login / Profile</a>
+  </div>
+</div>
+
+<!-- Main Navigation Header -->
+<header class="header">
+  <a href="/" class="logo">
+    <div class="logo-icon">🚆</div>
+    <div class="logo-text">
+      <span class="logo-title">TATKAL RUSH</span>
+      <span class="logo-sub">DISTRIBUTED RAILWAY BOOKING SYSTEM</span>
+    </div>
+  </a>
+  <nav class="nav">
+    <a href="/" class="active">🏠 Home</a>
+    <a href="javascript:void(0)" onclick="goToStage('stageSearch', true)">🚆 Trains</a>
+    <a href="javascript:void(0)" onclick="switchToHomeTab('booking'); goToStage('stageSearch', true);">🎫 Book Ticket</a>
+    <a href="javascript:void(0)" onclick="switchToHomeTab('pnr'); scrollToSearch();">📋 PNR Status</a>
+    <a href="/booking">📑 My Bookings</a>
+    <a href="/dashboard" class="nav-live">⚡ Live Tatkal Rush</a>
+    <a href="/dashboard">📊 System Dashboard</a>
+  </nav>
+</header>
+
+<!-- Announcement Ticker -->
+<div class="ticker">
+  <span class="ticker-inner">
+    &nbsp;&nbsp;&nbsp;🚆 <strong>TATKAL RUSH</strong> &bull; One Train. Thousands of Users. Zero Double Booking. &bull; Max 3 Tickets per Transaction &bull; Atomic Database Claims &bull; PS-06 Demonstration
+  </span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     HERO SECTION (SPLIT HEADLINE + MODERN PASSENGER TRAIN VISUAL)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="hero-wrapper fade-in">
+  <div class="hero-inner">
+    <!-- Left Hero Content -->
+    <div class="hero-content">
+      <div class="hero-badge-tag">
+        <span>⚡</span> <span>TATKAL CONCURRENCY ENGINE</span>
+      </div>
+      <h1 class="hero-headline">
+        Book Your Journey.<br>
+        <span class="highlight-orange">Beat the Tatkal Rush.</span>
+      </h1>
+      <p class="hero-description">
+        Fast, secure and reliable railway booking with distributed concurrency control. Safe atomic seat allocation with guaranteed zero double booking.
+      </p>
+      <div class="hero-trust-badges">
+        <span class="trust-badge-pill">🛡️ Zero Double Booking</span>
+        <span class="trust-badge-pill">⚡ Redis &amp; Kafka Queue</span>
+        <span class="trust-badge-pill">⏱️ 5-Min Verified Holds</span>
+        <span class="trust-badge-pill">🎫 Instant PNR E-Ticket</span>
+      </div>
+    </div>
+
+    <!-- Right Modern Generic Passenger Train Illustration -->
+    <div class="hero-visual-card">
+      <svg class="hero-train-svg" viewBox="0 0 540 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Soft Sky & Cloud Accents -->
+        <circle cx="460" cy="50" r="40" fill="#e0f2fe" opacity="0.6"/>
+        <path d="M420,70 Q440,50 470,65 T520,60" stroke="#bae6fd" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.5"/>
+        
+        <!-- Distant Mountains/Hills -->
+        <path d="M0,170 Q120,110 240,160 T480,140 L540,180 L540,240 L0,240 Z" fill="#e2e8f0" opacity="0.7"/>
+        <path d="M60,175 Q180,130 300,165 T540,150 L540,240 L60,240 Z" fill="#cbd5e1" opacity="0.5"/>
+
+        <!-- Ground / Ballast -->
+        <rect x="0" y="190" width="540" height="50" fill="#94a3b8" opacity="0.3"/>
+        
+        <!-- Railway Tracks -->
+        <line x1="0" y1="198" x2="540" y2="198" stroke="#475569" stroke-width="4"/>
+        <line x1="0" y1="210" x2="540" y2="210" stroke="#334155" stroke-width="4"/>
+        <!-- Sleepers -->
+        <path d="M20,194 L10,214 M50,194 L40,214 M80,194 L70,214 M110,194 L100,214 M140,194 L130,214 M170,194 L160,214 M200,194 L190,214 M230,194 L220,214 M260,194 L250,214 M290,194 L280,214 M320,194 L310,214 M350,194 L340,214 M380,194 L370,214 M410,194 L400,214 M440,194 L430,214 M470,194 L460,214 M500,194 L490,214 M530,194 L520,214" stroke="#64748b" stroke-width="3"/>
+
+        <!-- Modern Streamlined Train Coach 2 (Trailing) -->
+        <rect x="360" y="105" width="160" height="85" rx="6" fill="#ffffff" stroke="#0f3460" stroke-width="2"/>
+        <rect x="360" y="150" width="160" height="18" fill="#0f3460"/>
+        <rect x="360" y="172" width="160" height="6" fill="#ea580c"/>
+        <!-- Coach 2 Windows -->
+        <rect x="375" y="118" width="28" height="22" rx="3" fill="#1e293b"/>
+        <rect x="415" y="118" width="28" height="22" rx="3" fill="#1e293b"/>
+        <rect x="455" y="118" width="28" height="22" rx="3" fill="#1e293b"/>
+        <rect x="495" y="118" width="15" height="22" rx="2" fill="#1e293b"/>
+        <!-- Coach 2 Wheels / Bogie -->
+        <circle cx="390" cy="198" r="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+        <circle cx="410" cy="198" r="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+        <circle cx="480" cy="198" r="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+        <circle cx="500" cy="198" r="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+
+        <!-- Modern Aerodynamic Train Engine / Lead Coach -->
+        <!-- Main Aerodynamic Body Facing Left -->
+        <path d="M70,185 L350,185 L350,105 L160,105 Q100,105 75,145 Q60,165 70,185 Z" fill="#ffffff" stroke="#0f3460" stroke-width="2.5"/>
+        <!-- Railway Blue & Orange Speed Livery -->
+        <path d="M70,158 L350,158 L350,174 L68,174 Q68,166 70,158 Z" fill="#0f3460"/>
+        <path d="M68,175 L350,175 L350,181 L70,181 Q69,178 68,175 Z" fill="#ea580c"/>
+        
+        <!-- Aerodynamic Windshield / Nose Window -->
+        <path d="M85,148 L140,118 L155,118 L155,148 Z" fill="#0f172a"/>
+        <path d="M90,146 L138,122 L150,122 L150,146 Z" fill="#38bdf8" opacity="0.85"/>
+        <!-- Headlight Beam -->
+        <polygon points="68,165 0,145 0,195 68,175" fill="url(#headlightGlow)" opacity="0.35"/>
+        <!-- Headlight Lamp -->
+        <circle cx="72" cy="170" r="5" fill="#fef08a" stroke="#d97706" stroke-width="1.5"/>
+
+        <!-- Passenger Windows Lead Coach -->
+        <rect x="180" y="118" width="30" height="22" rx="3" fill="#1e293b"/>
+        <rect x="225" y="118" width="30" height="22" rx="3" fill="#1e293b"/>
+        <rect x="270" y="118" width="30" height="22" rx="3" fill="#1e293b"/>
+        <rect x="315" y="118" width="25" height="22" rx="3" fill="#1e293b"/>
+
+        <!-- Engine Roof Pantograph (Electric) -->
+        <path d="M220,105 L235,80 L275,80 L290,105" stroke="#475569" stroke-width="2.5" fill="none"/>
+        <line x1="230" y1="80" x2="280" y2="80" stroke="#c53030" stroke-width="3"/>
+        <line x1="255" y1="80" x2="255" y2="65" stroke="#475569" stroke-width="2"/>
+        <line x1="240" y1="65" x2="270" y2="65" stroke="#c53030" stroke-width="3.5"/>
+
+        <!-- Lead Coach Wheels / Bogie -->
+        <rect x="100" y="190" width="60" height="8" rx="2" fill="#334155"/>
+        <circle cx="115" cy="198" r="9" fill="#0f172a" stroke="#64748b" stroke-width="2.5"/>
+        <circle cx="145" cy="198" r="9" fill="#0f172a" stroke="#64748b" stroke-width="2.5"/>
+        <rect x="270" y="190" width="60" height="8" rx="2" fill="#334155"/>
+        <circle cx="285" cy="198" r="9" fill="#0f172a" stroke="#64748b" stroke-width="2.5"/>
+        <circle cx="315" cy="198" r="9" fill="#0f172a" stroke="#64748b" stroke-width="2.5"/>
+
+        <!-- Speed Motion Lines -->
+        <line x1="10" y1="130" x2="50" y2="130" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+        <line x1="20" y1="140" x2="60" y2="140" stroke="#ea580c" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+        <!-- Gradient Defs -->
+        <defs>
+          <linearGradient id="headlightGlow" x1="68" y1="170" x2="0" y2="170" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fef08a" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#fef08a" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       OVERLAPPING MAIN SEARCH CARD
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="main-search-card-container fade-in" id="searchCardSection">
+    <div class="booking-card">
+      
+      <!-- Mode Tabs (Book Ticket / PNR Status / Train Schedule) -->
+      <div class="mode-tabs-bar">
+        <div class="mode-tab active" id="tabBtnBooking" onclick="switchToHomeTab('booking', event)">
+          <span>🚆 BOOK TICKET</span>
+        </div>
+        <div class="mode-tab" id="tabBtnPnr" onclick="switchToHomeTab('pnr', event)">
+          <span>🎫 PNR STATUS</span>
+        </div>
+        <div class="mode-tab" id="tabBtnSchedule" onclick="switchToHomeTab('schedule', event)">
+          <span>📅 TRAIN SCHEDULE</span>
+        </div>
+      </div>
+
+      <!-- Tab 1: Book Ticket Search Form -->
+      <div id="homeTabBooking">
+        <form id="trainSearchForm" onsubmit="handleSearchSubmit(event)">
+          <!-- Row 1: Source, Swap, Destination, Date, Search Button -->
+          <div class="search-form-row-1">
+            <div class="form-group autocomplete-wrapper">
+              <label for="fromStation">FROM</label>
+              <input type="text" id="fromStation" value="Chennai Central (MAS)" placeholder="🔍 Select Source Station..." autocomplete="off">
+              <div id="fromDropdown" class="autocomplete-dropdown"></div>
+            </div>
+
+            <div style="display:flex;justify-content:center;">
+              <button type="button" class="btn-swap" onclick="swapStations(event)" title="Swap From and To stations">⇄</button>
+            </div>
+
+            <div class="form-group autocomplete-wrapper">
+              <label for="toStation">TO</label>
+              <input type="text" id="toStation" value="KSR Bengaluru (SBC)" placeholder="🔍 Select Destination..." autocomplete="off">
+              <div id="toDropdown" class="autocomplete-dropdown"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="journeyDate">JOURNEY DATE</label>
+              <input type="date" id="journeyDate">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="height:48px;font-size:1.05rem;" id="btnSearchTrains">
+              SEARCH TRAINS 🔍
+            </button>
+          </div>
+
+          <!-- Row 2: Quota, Class, Filters & Max Passengers -->
+          <div class="search-form-row-2">
+            <div style="display:flex;gap:0.75rem;align-items:center;">
+              <div class="form-group" style="min-width:140px;">
+                <label for="quotaSelect">QUOTA</label>
+                <select id="quotaSelect" onchange="searchTrains(false)" style="height:38px;padding:0 0.5rem;font-weight:700;">
+                  <option value="Tatkal" selected>Tatkal</option>
+                  <option value="General">General</option>
+                  <option value="Premium Tatkal">Premium Tatkal</option>
+                  <option value="Ladies">Ladies</option>
+                  <option value="Senior Citizen">Senior Citizen</option>
+                  <option value="Divyangjan">Divyangjan</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="min-width:150px;">
+                <label for="classSelect">CLASS</label>
+                <select id="classSelect" onchange="searchTrains(false)" style="height:38px;padding:0 0.5rem;font-weight:700;">
+                  <option value="3A" selected>3A — AC 3 Tier</option>
+                  <option value="2A">2A — AC 2 Tier</option>
+                  <option value="SL">SL — Sleeper</option>
+                  <option value="1A">1A — AC First Class</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.25rem;align-items:center;flex-wrap:wrap;">
+              <label class="filter-label">
+                <input type="checkbox" id="filterAvailableOnly" onchange="searchTrains(false)">
+                <span>Available Berths Only</span>
+              </label>
+              <label class="filter-label">
+                <input type="checkbox" id="filterFlexibleDate">
+                <span>Flexible with Date</span>
+              </label>
+              <label class="filter-label">
+                <input type="checkbox" id="filterAcOnly" onchange="searchTrains(false)">
+                <span>AC Only</span>
+              </label>
+              <label class="filter-label">
+                <input type="checkbox" id="filterSleeperOnly" onchange="searchTrains(false)">
+                <span>Sleeper Only</span>
+              </label>
+            </div>
+
+            <div style="margin-left:auto;display:flex;align-items:center;gap:0.5rem;">
+              <label for="passengerCountSelect" style="font-weight:800;font-size:0.78rem;color:var(--text-muted);">PASSENGERS (MAX 3):</label>
+              <select id="passengerCountSelect" onchange="onPassengerCountChange()" style="height:38px;padding:0 0.6rem;border-radius:6px;border:1.5px solid var(--border);font-weight:700;">
+                <option value="1" selected>1 Passenger</option>
+                <option value="2">2 Passengers</option>
+                <option value="3">3 Passengers</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tab 2: PNR Status Quick Check -->
+      <div id="homeTabPnr" style="display:none;">
+        <div style="font-weight:800;font-size:1.1rem;color:var(--primary);margin-bottom:0.5rem;">Check Current PNR Status</div>
+        <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1.25rem;">
+          Enter your 10-character Booking PNR reference to view confirmed passenger berths and status.
+        </p>
+        <form onsubmit="event.preventDefault(); quickCheckPnr(event);" style="display:flex;gap:1rem;max-width:620px;">
+          <div class="form-group" style="flex:1;">
+            <input type="text" id="quickPnrInput" placeholder="Enter 10-character PNR (e.g. TR0156247975)" style="font-family:var(--mono);font-size:1rem;letter-spacing:1px;text-transform:uppercase;">
+          </div>
+          <button type="submit" class="btn btn-primary" style="height:48px;">
+            CHECK PNR STATUS
+          </button>
+        </form>
+        <div id="quickPnrResult" style="margin-top:1.25rem;"></div>
+      </div>
+
+      <!-- Tab 3: Train Schedule Quick Lookup -->
+      <div id="homeTabSchedule" style="display:none;">
+        <div style="font-weight:800;font-size:1.1rem;color:var(--primary);margin-bottom:0.5rem;">Train Schedule &amp; Halt Timetable</div>
+        <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1.25rem;">
+          Select a train to inspect its route halts, arrival/departure timings, and cumulative distance.
+        </p>
+        <div style="display:flex;gap:1rem;max-width:650px;">
+          <select id="quickTrainSelect" style="flex:1;height:48px;padding:0 0.85rem;border:1.5px solid var(--border);border-radius:6px;font-weight:700;">
+            <option value="1">12608 — LALBAGH SUPERFAST EXPRESS (Chennai → Bengaluru)</option>
+            <option value="2">12028 — SHATABDI EXPRESS (Bengaluru → Chennai Central)</option>
+            <option value="3">20607 — VANDE BHARAT EXPRESS (Chennai Central → Mysuru)</option>
+            <option value="4">22625 — DOUBLE DECKER EXPRESS (Chennai → Bengaluru)</option>
+            <option value="5">99999 — DEMO EXPRESS (Tatkal Concurrency Special)</option>
+          </select>
+          <button type="button" class="btn btn-primary" style="height:48px;" onclick="viewTrainDetails(document.getElementById('quickTrainSelect').value, event)">
+            VIEW TIMETABLE
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       QUICK ACTION CARDS (PNR STATUS & TRACK TRAIN)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="quick-actions-grid fade-in">
+    <div class="quick-card">
+      <div class="quick-card-left">
+        <div class="quick-card-icon">🎫</div>
+        <div>
+          <div class="quick-card-title">Check PNR Status</div>
+          <div class="quick-card-desc">Instant real-time booking verification &amp; passenger berth lookup.</div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline" onclick="switchToHomeTab('pnr', event); scrollToSearch();">
+        CHECK PNR
+      </button>
+    </div>
+
+    <div class="quick-card">
+      <div class="quick-card-left">
+        <div class="quick-card-icon">🚆</div>
+        <div>
+          <div class="quick-card-title">Track Train Journey</div>
+          <div class="quick-card-desc">Inspect station halts, live running schedule, and platform timings.</div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline" onclick="switchToHomeTab('schedule', event); scrollToSearch();">
+        TRACK TRAIN
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       STAGE 1: 2-COLUMN TRAIN SEARCH RESULTS
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="stageSearch" class="fade-in" style="margin-bottom:3.5rem;">
+    <div class="results-layout">
+      <!-- Left Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-sidebar-title">
+          <span>FILTER TRAINS</span>
+          <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;font-weight:700;" onclick="resetFilters()">Reset All</span>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-section-title">Departure Time</div>
+          <div class="filter-options-grid">
+            <label class="filter-label"><input type="radio" name="depTime" value="all" checked onchange="filterResults()"> Any Time</label>
+            <label class="filter-label"><input type="radio" name="depTime" value="morning" onchange="filterResults()"> Early Morning (00:00 - 06:00)</label>
+            <label class="filter-label"><input type="radio" name="depTime" value="day" onchange="filterResults()"> Morning (06:00 - 12:00)</label>
+            <label class="filter-label"><input type="radio" name="depTime" value="afternoon" onchange="filterResults()"> Afternoon (12:00 - 18:00)</label>
+            <label class="filter-label"><input type="radio" name="depTime" value="night" onchange="filterResults()"> Evening &bull; Night (18:00 - 24:00)</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-section-title">Train Type</div>
+          <div class="filter-options-grid">
+            <label class="filter-label"><input type="checkbox" id="typeSuperfast" checked onchange="filterResults()"> Superfast Express</label>
+            <label class="filter-label"><input type="checkbox" id="typeVande" checked onchange="filterResults()"> Vande Bharat</label>
+            <label class="filter-label"><input type="checkbox" id="typeShatabdi" checked onchange="filterResults()"> Shatabdi Express</label>
+            <label class="filter-label"><input type="checkbox" id="typeExpress" checked onchange="filterResults()"> Express / Passenger</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-section-title">Journey Class</div>
+          <div class="filter-options-grid">
+            <label class="filter-label"><input type="checkbox" id="class3A" checked onchange="filterResults()"> 3A (AC 3 Tier)</label>
+            <label class="filter-label"><input type="checkbox" id="class2A" checked onchange="filterResults()"> 2A (AC 2 Tier)</label>
+            <label class="filter-label"><input type="checkbox" id="classSL" checked onchange="filterResults()"> SL (Sleeper)</label>
+            <label class="filter-label"><input type="checkbox" id="class1A" checked onchange="filterResults()"> 1A (AC First Class)</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-section-title">Sort By</div>
+          <select id="sortBySelect" onchange="filterResults()" style="width:100%;height:38px;padding:0 0.5rem;border-radius:6px;border:1px solid var(--border);font-size:0.85rem;font-weight:600;">
+            <option value="departure">Departure Time (Earliest First)</option>
+            <option value="duration">Travel Duration (Fastest First)</option>
+            <option value="fare">Fare Amount (Lowest First)</option>
+            <option value="availability">Tatkal Seats Available (Highest First)</option>
+          </select>
+        </div>
+      </aside>
+
+      <!-- Right Train Cards Container -->
+      <div id="trainsList">
+        <div class="card" style="text-align:center;color:var(--text-muted);padding:3rem;">
+          Loading available trains from railway database…
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       STAGE 2: VISUAL SEAT SELECTION (COACH B1)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="stageSeatSelect" style="display:none;" class="fade-in">
+    <div class="wizard-steps" style="margin-bottom:1.5rem;">
+      <div class="wizard-step completed"><div class="wizard-step-circle">✓</div><div class="wizard-step-label">Search</div></div>
+      <div class="wizard-step active"><div class="wizard-step-circle">2</div><div class="wizard-step-label">Select Seats</div></div>
+      <div class="wizard-step"><div class="wizard-step-circle">3</div><div class="wizard-step-label">Passengers</div></div>
+      <div class="wizard-step"><div class="wizard-step-circle">4</div><div class="wizard-step-label">Payment</div></div>
+      <div class="wizard-step"><div class="wizard-step-circle">5</div><div class="wizard-step-label">E-Ticket</div></div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <h2 style="font-size:1.6rem;font-weight:900;color:var(--primary);">SELECT YOUR SEATS</h2>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-top:2px;">
+          Train: <strong id="selectedTrainName">LALBAGH SUPERFAST EXPRESS (12608)</strong> &nbsp;|&nbsp; Coach: <strong>B1</strong> &nbsp;|&nbsp; Class: <strong>3A</strong> &nbsp;|&nbsp; Quota: <strong style="color:var(--accent);">Tatkal Special</strong>
+        </p>
+      </div>
+      <div style="display:flex;gap:0.75rem;align-items:center;">
+        <span id="seatSelectionCounterBadge" style="background:var(--primary);color:#fff;padding:0.4rem 0.9rem;border-radius:999px;font-size:0.85rem;font-weight:800;">
+          Selected: 0 / 1
+        </span>
+        <button type="button" class="btn btn-outline" onclick="goToStage('stageSearch', true)">← Modify Search</button>
+      </div>
+    </div>
+
+    <!-- Coach Layout Container -->
+    <div class="coach-container" id="coachLayout"></div>
+
+    <!-- Selected Seat Action Bar -->
+    <div class="seat-action-bar" id="seatActionBar" style="display:none;">
+      <div class="seat-selection-info">
+        <div class="info-block">
+          <span class="info-label">Selected Seats</span>
+          <span class="info-value" id="selectedSeatsDisplay" style="color:var(--accent);font-family:var(--mono);">—</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Coach &amp; Class</span>
+          <span class="info-value" style="font-size:1.05rem;color:var(--primary);">Coach: B1 | Class: 3A</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Status</span>
+          <span class="info-value" id="seatStatusPrompt" style="font-size:1.05rem;font-weight:800;color:var(--text);">0 / 1 seats selected</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Total Fare</span>
+          <span class="info-value" id="totalFareDisplay" style="color:var(--success-dark);">₹1,245</span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-accent btn-lg" id="btnContinueToPassenger" onclick="holdSeatsAndProceed(event)">
+        CONTINUE TO PASSENGER DETAILS →
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       STAGE 3: PASSENGER DETAILS
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="stagePassenger" style="display:none;" class="fade-in">
+    <div class="wizard-steps" style="margin-bottom:1.5rem;">
+      <div class="wizard-step completed"><div class="wizard-step-circle">✓</div><div class="wizard-step-label">Search</div></div>
+      <div class="wizard-step completed"><div class="wizard-step-circle">✓</div><div class="wizard-step-label">Seats</div></div>
+      <div class="wizard-step active"><div class="wizard-step-circle">3</div><div class="wizard-step-label">Passengers</div></div>
+      <div class="wizard-step"><div class="wizard-step-circle">4</div><div class="wizard-step-label">Payment</div></div>
+      <div class="wizard-step"><div class="wizard-step-circle">5</div><div class="wizard-step-label">E-Ticket</div></div>
+    </div>
+
+    <div class="card" style="max-width:780px;margin:0 auto 2rem;">
+      <div class="card-header-bar">
+        <div class="card-title">👤 PASSENGER DETAILS</div>
+        <button type="button" class="btn btn-outline" style="padding:0.4rem 0.8rem;font-size:0.8rem;" onclick="goToStage('stageSeatSelect', true)">← Modify Seats</button>
+      </div>
+
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem 1.25rem;margin-bottom:1.5rem;border:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;">Reservation Session</div>
+          <div style="font-weight:800;color:var(--primary);margin-top:2px;">Coach B1 &bull; PNR Reference: <code id="passSessionPnr" style="color:var(--primary);font-weight:900;">—</code></div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;">Held Berths (5 min hold)</div>
+          <div style="font-size:1.25rem;font-weight:900;color:var(--accent);font-family:var(--mono);" id="passHeldSeatsBadge">—</div>
+        </div>
+      </div>
+
+      <div id="passengerFormsContainer"></div>
+
+      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-light);">
+        <h4 style="font-size:0.95rem;font-weight:800;color:var(--primary);margin-bottom:0.75rem;">CONTACT INFORMATION</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div class="form-group">
+            <label for="primaryContactPhone">Primary Mobile Number (for SMS &amp; Ticket)</label>
+            <input type="tel" id="primaryContactPhone" value="9876543210" placeholder="10-digit mobile number">
+          </div>
+          <div class="form-group">
+            <label for="primaryContactEmail">Email Address (for E-Ticket PDF)</label>
+            <input type="email" id="primaryContactEmail" value="demo_user@tatkalrush.demo" placeholder="yourname@domain.com">
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;display:flex;justify-content:space-between;align-items:center;padding-top:1.25rem;border-top:1px solid var(--border-light);">
+        <div>
+          <span style="font-size:0.8rem;color:var(--text-muted);font-weight:700;">TOTAL FARE:</span>
+          <span style="font-size:1.5rem;font-weight:900;color:var(--primary);margin-left:0.5rem;" id="passengerTotalFareBadge">₹1,245</span>
+        </div>
+        <button type="button" class="btn btn-accent btn-lg" id="btnSavePassengers" onclick="savePassengersAndProceedToPay(event)">
+          PROCEED TO PAYMENT →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       STAGE 4: PAYMENT PAGE
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="stagePayment" style="display:none;" class="fade-in">
+    <div class="wizard-steps" style="margin-bottom:1.5rem;">
+      <div class="wizard-step completed"><div class="wizard-step-circle">✓</div><div class="wizard-step-label">Search</div></div>
+      <div class="wizard-step completed"><div class="wizard-step-circle">✓</div><div class="wizard-step-label">Seats</div></div>
+      <div class="wizard-step completed"><div class="wizard-step-circle">✓</div><div class="wizard-step-label">Passengers</div></div>
+      <div class="wizard-step active"><div class="wizard-step-circle">4</div><div class="wizard-step-label">Payment</div></div>
+      <div class="wizard-step"><div class="wizard-step-circle">5</div><div class="wizard-step-label">E-Ticket</div></div>
+    </div>
+
+    <div class="payment-modal-card">
+      <h2 style="font-size:1.5rem;font-weight:900;color:var(--primary);">ORDER SUMMARY &amp; PAYMENT</h2>
+      <p style="color:var(--text-muted);font-size:0.88rem;margin-top:4px;">
+        Seats <strong id="paySeatsSummary" style="color:var(--accent);">—</strong> are temporarily held in inventory. Complete payment before the countdown expires.
+      </p>
+
+      <div class="countdown-box" id="payCountdown">05:00</div>
+      <div style="height:6px;background:var(--border-light);border-radius:999px;margin-bottom:1.5rem;overflow:hidden;">
+        <div id="payProgressBar" style="height:100%;width:100%;background:linear-gradient(90deg,var(--success),var(--gold),var(--accent));transition:width 1s linear;"></div>
+      </div>
+
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1.5rem;text-align:left;font-size:0.85rem;border:1px solid var(--border-light);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="color:var(--text-muted);">PNR Reference:</span>
+          <strong id="payPnrDisplay" style="font-family:var(--mono);color:var(--primary);">—</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="color:var(--text-muted);">Total Passengers:</span>
+          <strong id="payPassengerCountDisplay">1 Passenger</strong>
+        </div>
+        <div id="paySeatsBreakdownList" style="margin:0.5rem 0;padding:0.5rem 0;border-top:1px dashed var(--border);border-bottom:1px dashed var(--border);font-size:0.8rem;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:4px;">
+          <span style="color:var(--text-muted);font-weight:700;">Total Amount Payable:</span>
+          <strong id="payTotalAmountText" style="color:var(--accent);font-size:1.25rem;">₹1,245</strong>
+        </div>
+      </div>
+
+      <div class="pay-methods-grid">
+        <div class="pay-tab active" onclick="selectPayTab(this, 'UPI', event)">
+          <div style="font-size:1.2rem;">📱</div>
+          <div>UPI / QR</div>
+        </div>
+        <div class="pay-tab" onclick="selectPayTab(this, 'Card', event)">
+          <div style="font-size:1.2rem;">💳</div>
+          <div>Debit / Credit Card</div>
+        </div>
+        <div class="pay-tab" onclick="selectPayTab(this, 'NetBanking', event)">
+          <div style="font-size:1.2rem;">🏦</div>
+          <div>Net Banking</div>
+        </div>
+      </div>
+
+      <div id="payMethodDetail" style="margin-bottom:1.5rem;text-align:left;">
+        <div class="form-group">
+          <label for="upiVpa">Virtual Payment Address (VPA) / UPI ID</label>
+          <input type="text" id="upiVpa" value="demo_user@okhdfcbank" placeholder="yourname@upi">
+        </div>
+      </div>
+
+      <div style="background:#eff6ff;border:1.5px dashed #3b82f6;border-radius:8px;padding:0.75rem;margin-bottom:1.25rem;font-size:0.8rem;color:#1e40af;text-align:center;">
+        🛡️ <strong>Demo Payment Mode:</strong> No real currency will be charged. This transaction will atomically verify seat inventory and issue a confirmed ticket.
+      </div>
+
+      <button type="button" class="btn btn-accent btn-lg" style="width:100%;font-size:1.1rem;" id="btnPayNow" onclick="executePayment(event)">
+        💳 PAY &amp; GENERATE CONFIRMED TICKET
+      </button>
+
+      <div id="payStatusMsg" style="margin-top:1rem;font-size:0.9rem;font-weight:700;"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       STAGE 5: FINAL CONFIRMED DIGITAL E-TICKET
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="stageTicket" style="display:none;" class="fade-in">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;background:var(--success-subtle);color:var(--success);border-radius:50%;font-size:2rem;margin-bottom:0.5rem;border:2px solid var(--success-border);">
+        ✓
+      </div>
+      <h2 style="font-size:1.8rem;font-weight:900;color:var(--primary);">BOOKING CONFIRMED!</h2>
+      <p style="color:var(--success-dark);font-weight:700;font-size:0.95rem;margin-top:2px;">
+        Your railway ticket has been successfully issued with verified seat inventory and zero double booking.
+      </p>
+    </div>
+
+    <!-- Official Ticket Container -->
+    <div id="ticketContainer"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       ⚡ TATKAL SPECIAL SECTION (BEAT THE 10 AM RUSH)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="section-container fade-in">
+    <div class="section-header-center">
+      <div class="section-tag">⚡ TATKAL SPECIAL</div>
+      <h2 class="section-title">Beat the 10 AM Rush</h2>
+      <p class="section-desc">
+        Thousands of users compete for limited seats simultaneously. Our distributed booking architecture manages high-concurrency bursts safely.
+      </p>
+    </div>
+
+    <div class="feature-cards-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">⚡</div>
+        <h3 class="feature-card-title">Fast Queue</h3>
+        <p class="feature-card-text">
+          High-concurrency booking requests are serialized using Redis token-bucket rate limiters and ordered Kafka FIFO queues.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">🔒</div>
+        <h3 class="feature-card-title">Safe Booking</h3>
+        <p class="feature-card-text">
+          Atomic database transactions and row-level locks ensure that each seat is claimed by exactly one user with zero double booking.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">✓</div>
+        <h3 class="feature-card-title">Reliable Holds</h3>
+        <p class="feature-card-text">
+          Idempotency keys and automatic 5-minute hold timers protect against network disconnects and duplicate payment charges.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       ⚙️ HOW TATKAL RUSH WORKS (ARCHITECTURAL FLOW)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="section-container fade-in">
+    <div class="how-it-works-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <h2 style="font-size:1.4rem;font-weight:900;color:var(--primary);">⚙️ HOW TATKAL RUSH WORKS</h2>
+          <p style="color:var(--text-muted);font-size:0.85rem;margin-top:2px;">
+            End-to-end distributed system request pipeline for concurrency-safe railway reservation.
+          </p>
+        </div>
+        <a href="/dashboard" class="btn btn-outline" style="font-size:0.82rem;padding:0.4rem 0.85rem;">
+          VIEW LIVE DASHBOARD →
+        </a>
+      </div>
+
+      <div class="workflow-steps-flex">
+        <div class="workflow-step-node">
+          <div class="workflow-step-icon">👤</div>
+          <div class="workflow-step-title">USER</div>
+          <div class="workflow-step-sub">Submits Booking Request</div>
+        </div>
+        <div class="workflow-arrow">➔</div>
+        <div class="workflow-step-node">
+          <div class="workflow-step-icon">🛡️</div>
+          <div class="workflow-step-title">RATE LIMITER</div>
+          <div class="workflow-step-sub">Redis Token Bucket</div>
+        </div>
+        <div class="workflow-arrow">➔</div>
+        <div class="workflow-step-node">
+          <div class="workflow-step-icon">📨</div>
+          <div class="workflow-step-title">KAFKA QUEUE</div>
+          <div class="workflow-step-sub">Ordered FIFO Partitions</div>
+        </div>
+        <div class="workflow-arrow">➔</div>
+        <div class="workflow-step-node">
+          <div class="workflow-step-icon">⚙️</div>
+          <div class="workflow-step-title">BOOKING WORKER</div>
+          <div class="workflow-step-sub">Async Task Consumer</div>
+        </div>
+        <div class="workflow-arrow">➔</div>
+        <div class="workflow-step-node">
+          <div class="workflow-step-icon">🔒</div>
+          <div class="workflow-step-title">ATOMIC CLAIM</div>
+          <div class="workflow-step-sub">5-Min Lock / Expiry</div>
+        </div>
+        <div class="workflow-arrow">➔</div>
+        <div class="workflow-step-node">
+          <div class="workflow-step-icon">💾</div>
+          <div class="workflow-step-title">POSTGRESQL</div>
+          <div class="workflow-step-sub">ACID WAL Database</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       🌟 POPULAR TRAIN SEARCHES (ONE-CLICK DEMO SHORTCUTS)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="section-container fade-in">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:900;color:var(--primary);">🌟 Popular Train Routes</h2>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:2px;">
+          Click any route shortcut below to instantly pre-fill the search form.
+        </p>
+      </div>
+      <span style="font-size:0.75rem;color:var(--text-muted);font-weight:700;background:var(--surface2);padding:0.25rem 0.6rem;border-radius:4px;border:1px solid var(--border-light);">
+        Demo Routes
+      </span>
+    </div>
+
+    <div class="popular-trains-grid">
+      <div class="popular-route-card" onclick="setPopularRoute('Chennai Central (MAS)', 'KSR Bengaluru (SBC)', event)">
+        <div>
+          <div class="popular-route-from-to">Chennai (MAS) → Bengaluru (SBC)</div>
+          <div class="popular-route-meta">Superfast Express &bull; 5h 00m &bull; Daily</div>
+        </div>
+        <div class="popular-route-fare">
+          <div class="popular-route-price">₹1,245</div>
+          <div style="font-size:0.7rem;color:var(--success-dark);font-weight:700;">Tatkal 3A</div>
+        </div>
+      </div>
+
+      <div class="popular-route-card" onclick="setPopularRoute('Chennai Central (MAS)', 'New Delhi (NDLS)', event)">
+        <div>
+          <div class="popular-route-from-to">Chennai (MAS) → New Delhi (NDLS)</div>
+          <div class="popular-route-meta">Grand Trunk Express &bull; 28h 15m</div>
+        </div>
+        <div class="popular-route-fare">
+          <div class="popular-route-price">₹2,150</div>
+          <div style="font-size:0.7rem;color:var(--success-dark);font-weight:700;">Tatkal 3A</div>
+        </div>
+      </div>
+
+      <div class="popular-route-card" onclick="setPopularRoute('KSR Bengaluru (SBC)', 'Hyderabad (HYB)', event)">
+        <div>
+          <div class="popular-route-from-to">Bengaluru (SBC) → Hyderabad (HYB)</div>
+          <div class="popular-route-meta">Kacheguda Express &bull; 11h 20m</div>
+        </div>
+        <div class="popular-route-fare">
+          <div class="popular-route-price">₹1,180</div>
+          <div style="font-size:0.7rem;color:var(--success-dark);font-weight:700;">Tatkal 3A</div>
+        </div>
+      </div>
+
+      <div class="popular-route-card" onclick="setPopularRoute('Kolkata (HWH)', 'New Delhi (NDLS)', event)">
+        <div>
+          <div class="popular-route-from-to">Kolkata (HWH) → New Delhi (NDLS)</div>
+          <div class="popular-route-meta">Howrah Rajdhani &bull; 17h 10m</div>
+        </div>
+        <div class="popular-route-fare">
+          <div class="popular-route-price">₹2,420</div>
+          <div style="font-size:0.7rem;color:var(--success-dark);font-weight:700;">Tatkal 3A</div>
+        </div>
+      </div>
+
+      <div class="popular-route-card" onclick="setPopularRoute('Mumbai (CSMT)', 'New Delhi (NDLS)', event)">
+        <div>
+          <div class="popular-route-from-to">Mumbai (CSMT) → New Delhi (NDLS)</div>
+          <div class="popular-route-meta">Mumbai Rajdhani &bull; 15h 30m</div>
+        </div>
+        <div class="popular-route-fare">
+          <div class="popular-route-price">₹2,290</div>
+          <div style="font-size:0.7rem;color:var(--success-dark);font-weight:700;">Tatkal 3A</div>
+        </div>
+      </div>
+
+      <div class="popular-route-card" onclick="setPopularRoute('Chennai Central (MAS)', 'Mysuru Jn (MYS)', event)">
+        <div>
+          <div class="popular-route-from-to">Chennai (MAS) → Mysuru (MYS)</div>
+          <div class="popular-route-meta">Vande Bharat Express &bull; 6h 30m</div>
+        </div>
+        <div class="popular-route-fare">
+          <div class="popular-route-price">₹1,365</div>
+          <div style="font-size:0.7rem;color:var(--success-dark);font-weight:700;">Tatkal CC</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       🛡️ WHY TATKAL RUSH? (4 VALUE PILLARS)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="section-container fade-in">
+    <div class="section-header-center">
+      <div class="section-tag">ENGINEERING INTEGRITY</div>
+      <h2 class="section-title">Why Tatkal Rush?</h2>
+      <p class="section-desc">
+        Designed from the ground up to eliminate race conditions, double bookings, and system crashes under high load.
+      </p>
+    </div>
+
+    <div class="why-cards-grid">
+      <div class="why-card">
+        <div class="why-card-icon">🛡️</div>
+        <h3 class="why-card-title">Zero Double Booking</h3>
+        <p class="why-card-desc">
+          Atomic database row-level locking ensures that only one passenger can hold any seat at a given microsecond.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">📊</div>
+        <h3 class="why-card-title">Queue Management</h3>
+        <p class="why-card-desc">
+          Partitioned Kafka queues absorb massive 10:00 AM booking surges and serialize requests fairly.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">⚡</div>
+        <h3 class="why-card-title">Fast Response</h3>
+        <p class="why-card-desc">
+          In-memory Redis token buckets filter abusive traffic, protect database throughput, and speed up lookups.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">🔁</div>
+        <h3 class="why-card-title">Reliable Booking</h3>
+        <p class="why-card-desc">
+          Unique idempotency keys and automatic seat release workers protect bookings and prevent duplicate charges.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       ⚡ LIVE TATKAL PREVIEW SECTION
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="section-container fade-in">
+    <div class="live-preview-card">
+      <div>
+        <div style="font-size:0.75rem;background:rgba(245,158,11,0.25);color:#fcd34d;padding:0.2rem 0.6rem;border-radius:4px;font-weight:800;display:inline-block;margin-bottom:0.5rem;">
+          DEMO / LOAD TEST TELEMETRY
+        </div>
+        <h3 style="font-size:1.6rem;font-weight:900;color:#fff;">Live Tatkal Rush Monitor</h3>
+        <p style="color:#cbd5e1;font-size:0.9rem;margin-top:2px;">
+          Inspect real-time concurrency metrics, FIFO queue depth, and automated race tests.
+        </p>
+      </div>
+
+      <div class="live-preview-stats">
+        <div class="live-stat-box">
+          <div class="live-stat-val" id="prevUsers">1,000</div>
+          <div class="live-stat-label">Concurrent Users</div>
+        </div>
+        <div class="live-stat-box">
+          <div class="live-stat-val" style="color:#34d399;" id="prevAvail">5</div>
+          <div class="live-stat-label">Available Seats</div>
+        </div>
+        <div class="live-stat-box">
+          <div class="live-stat-val" style="color:#60a5fa;" id="prevClaims">5</div>
+          <div class="live-stat-label">Successful Claims</div>
+        </div>
+        <div class="live-stat-box">
+          <div class="live-stat-val" style="color:#34d399;">0 ✓</div>
+          <div class="live-stat-label">Double Bookings</div>
+        </div>
+        <div class="live-stat-box">
+          <div class="live-stat-val" style="color:#f87171;" id="prevRej">995</div>
+          <div class="live-stat-label">Safely Rejected</div>
+        </div>
+      </div>
+
+      <a href="/dashboard" class="btn btn-accent btn-lg" style="white-space:nowrap;">
+        VIEW LIVE SYSTEM →
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- Train Details Modal Overlay -->
+<div id="trainDetailsModal" class="modal-overlay" onclick="onModalOverlayClick(event)">
+  <div class="modal-box" id="trainDetailsModalContent"></div>
+</div>
+
+<!-- Official Public Service Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+        <span style="font-size:1.5rem;">🚆</span>
+        <span style="font-size:1.25rem;font-weight:900;color:#fff;">TATKAL RUSH</span>
+      </div>
+      <p style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin-bottom:1rem;">
+        Distributed Railway Booking System demonstration solving high-concurrency 10:00 AM Tatkal rush challenges with guaranteed zero double booking.
+      </p>
+      <div style="font-size:0.75rem;color:#64748b;font-weight:700;">
+        TAGLINE: “One Train. Thousands of Users. Zero Double Booking.”
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">QUICK LINKS</div>
+      <ul class="footer-links-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="javascript:void(0)" onclick="goToStage('stageSearch', true)">Train Search</a></li>
+        <li><a href="javascript:void(0)" onclick="switchToHomeTab('pnr', event); scrollToSearch();">PNR Status</a></li>
+        <li><a href="/booking">My Bookings</a></li>
+        <li><a href="/dashboard">Live Tatkal Rush</a></li>
+        <li><a href="/dashboard">System Dashboard</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">TECHNOLOGY</div>
+      <ul class="footer-links-list">
+        <li><span>Python 3 &bull; FastAPI</span></li>
+        <li><span>Redis &bull; Token Bucket</span></li>
+        <li><span>Kafka &bull; Ordered FIFO</span></li>
+        <li><span>PostgreSQL / SQLite WAL</span></li>
+        <li><span>SQLAlchemy Transactions</span></li>
+        <li><span>WebSockets Live Feed</span></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">PROJECT INFORMATION</div>
+      <p style="font-size:0.82rem;color:#94a3b8;line-height:1.5;margin-bottom:0.75rem;">
+        Academic Project Demonstration for PS-06. All train schedules, fares, and user accounts are simulated fixtures.
+      </p>
+      <div style="background:rgba(255,255,255,0.08);padding:0.6rem;border-radius:6px;font-size:0.75rem;color:#cbd5e1;">
+        🛡️ <strong>Security Notice:</strong> Not affiliated with IRCTC. No real passenger credentials or payment gateways are used.
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom-bar">
+    <div>&copy; 2026 TATKAL RUSH &bull; Distributed Railway Booking Portal (PS-06)</div>
+    <div>Academic Demonstration &bull; Zero Double Booking Verified</div>
+  </div>
+</footer>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="/static/app.js"></script>
+<script>
+  // ── Authoritative Booking State ───────────────────────────────────────────
+  const bookingState = {
+    currentStage: 'stageSearch',
+    trainId: 1,
+    selectedTrain: null,
+    targetPassengerCount: 1,
+    selectedSeatsList: [],
+    currentHoldPnr: null,
+    expiresAt: null,
+    holdCountdownTimer: null,
+    selectedPayMethod: 'UPI',
+    allTrainsRaw: [],
+    seatsData: [],
+    passengersData: [],
+    source: 'Chennai Central (MAS)',
+    destination: 'KSR Bengaluru (SBC)',
+    journeyDate: '',
+    quota: 'Tatkal',
+    seatClass: '3A',
+    ticket: null
+  };
+
+  // Backward compatibility alias variables
+  let currentTrainId = 1;
+  let targetPassengerCount = 1;
+  let selectedSeatsList = [];
+  let currentHoldPnr = null;
+  let holdCountdownTimer = null;
+  let selectedPayMethod = 'UPI';
+  let allTrainsRaw = [];
+  let seatsData = [];
+
+  // Default journey date (tomorrow)
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  const defDate = d.toISOString().split('T')[0];
+  const journeyDateInput = document.getElementById('journeyDate');
+  if (journeyDateInput) journeyDateInput.value = defDate;
+  bookingState.journeyDate = defDate;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initStationAutocomplete('fromStation', 'fromDropdown', () => searchTrains(false));
+    initStationAutocomplete('toStation', 'toDropdown', () => searchTrains(false));
+    searchTrains(false);
+
+    // Initial state in history
+    history.replaceState({ stage: 'stageSearch', pnr: null }, '', window.location.pathname);
+  });
+
+  // ── Scroll to Search Card Helper ─────────────────────────────────────────
+  function scrollToSearch() {
+    const el = document.getElementById('searchCardSection');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Pre-fill Popular Route Shortcut ──────────────────────────────────────
+  function setPopularRoute(from, to, e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    document.getElementById('fromStation').value = from;
+    document.getElementById('toStation').value = to;
+    bookingState.source = from;
+    bookingState.destination = to;
+    switchToHomeTab('booking');
+    searchTrains(true);
+    toast.info('Route Selected', `${from} → ${to}`);
+  }
+
+  // ── Home Tabs Switcher (Booking / PNR / Schedule) ─────────────────────────
+  function switchToHomeTab(tabName, e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    const tabs = ['booking', 'pnr', 'schedule'];
+    tabs.forEach(t => {
+      const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+      const pane = document.getElementById(`homeTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+      if (btn && pane) {
+        if (t === tabName) {
+          btn.classList.add('active');
+          pane.style.display = 'block';
+        } else {
+          btn.classList.remove('active');
+          pane.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  // ── Swap Stations ────────────────────────────────────────────────────────
+  function swapStations(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    const fromEl = document.getElementById('fromStation');
+    const toEl = document.getElementById('toStation');
+    const temp = fromEl.value;
+    fromEl.value = toEl.value;
+    toEl.value = temp;
+    bookingState.source = fromEl.value;
+    bookingState.destination = toEl.value;
+    toast.info('Stations Swapped', `${fromEl.value} ⇄ ${toEl.value}`);
+    searchTrains(false);
+  }
+
+  function onPassengerCountChange() {
+    const sel = document.getElementById('passengerCountSelect');
+    targetPassengerCount = parseInt(sel.value) || 1;
+    if (targetPassengerCount > 3) {
+      targetPassengerCount = 3;
+      sel.value = "3";
+      toast.warning('Limit Reached', 'Maximum 3 seats allowed per booking.');
+    }
+    bookingState.targetPassengerCount = targetPassengerCount;
+  }
+
+  // ── Stage Switching (Preserves Scroll and History) ─────────────────────────
+  function goToStage(stageId, shouldScroll = true, pushHistory = true) {
+    const stages = ['stageSearch', 'stageSeatSelect', 'stagePassenger', 'stagePayment', 'stageTicket'];
+    stages.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (id === stageId) {
+        el.style.display = 'block';
+      } else {
+        el.style.display = 'none';
+      }
+    });
+
+    bookingState.currentStage = stageId;
+
+    if (pushHistory) {
+      const slug = stageId.replace('stage', '').toLowerCase();
+      history.pushState({ stage: stageId, pnr: bookingState.currentHoldPnr, trainId: bookingState.trainId }, '', '#' + slug);
+    }
+
+    if (shouldScroll) {
+      const targetEl = document.getElementById(stageId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  // Browser Back / Forward handler
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.stage) {
+      goToStage(e.state.stage, true, false);
+    } else {
+      goToStage('stageSearch', true, false);
+    }
+  });
+
+  function handleSearchSubmit(e) {
+    if (e) e.preventDefault();
+    searchTrains(true);
+  }
+
+  // ── Search Trains ────────────────────────────────────────────────────────
+  async function searchTrains(shouldScroll = false) {
+    onPassengerCountChange();
+    const from = document.getElementById('fromStation').value.trim();
+    const to = document.getElementById('toStation').value.trim();
+    const date = document.getElementById('journeyDate').value;
+    const quota = document.getElementById('quotaSelect').value;
+    const cls = document.getElementById('classSelect').value;
+
+    bookingState.source = from;
+    bookingState.destination = to;
+    bookingState.journeyDate = date;
+    bookingState.quota = quota;
+    bookingState.seatClass = cls;
+
+    const availableOnly = document.getElementById('filterAvailableOnly').checked;
+    const flexibleDate = document.getElementById('filterFlexibleDate').checked;
+    const acOnly = document.getElementById('filterAcOnly').checked;
+    const sleeperOnly = document.getElementById('filterSleeperOnly').checked;
+
+    const btn = document.getElementById('btnSearchTrains');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '🔍 SEARCHING...';
+    }
+
+    try {
+      const data = await apiPost('/api/search', {
+        source: from,
+        destination: to,
+        journey_date: date,
+        quota: quota,
+        seat_class: cls,
+        passengers: bookingState.targetPassengerCount,
+        filters: {
+          available_only: availableOnly,
+          flexible_date: flexibleDate,
+          ac_only: acOnly,
+          sleeper_only: sleeperOnly,
+        }
+      });
+      allTrainsRaw = data.trains || [];
+      bookingState.allTrainsRaw = allTrainsRaw;
+      filterResults();
+
+      if (shouldScroll) {
+        const resultsEl = document.getElementById('trainsList');
+        if (resultsEl) resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (e) {
+      toast.error('Search Failed', e.data?.detail?.message || 'Could not fetch train list.');
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = 'SEARCH TRAINS 🔍';
+      }
+    }
+  }
+
+  // ── Filter Results via Sidebar ───────────────────────────────────────────
+  function filterResults() {
+    let filtered = [...bookingState.allTrainsRaw];
+
+    // Departure Time
+    const depTimeRadio = document.querySelector('input[name="depTime"]:checked')?.value || 'all';
+    if (depTimeRadio !== 'all') {
+      filtered = filtered.filter(t => {
+        const hour = parseInt(t.departure_time.split(':')[0]) || 0;
+        const isPM = t.departure_time.includes('PM');
+        const hr24 = isPM && hour !== 12 ? hour + 12 : (hour === 12 && !isPM ? 0 : hour);
+        if (depTimeRadio === 'morning') return hr24 >= 0 && hr24 < 6;
+        if (depTimeRadio === 'day') return hr24 >= 6 && hr24 < 12;
+        if (depTimeRadio === 'afternoon') return hr24 >= 12 && hr24 < 18;
+        if (depTimeRadio === 'night') return hr24 >= 18 && hr24 <= 24;
+        return true;
+      });
+    }
+
+    // Train Types
+    const sf = document.getElementById('typeSuperfast').checked;
+    const vande = document.getElementById('typeVande').checked;
+    const shatabdi = document.getElementById('typeShatabdi').checked;
+    const exp = document.getElementById('typeExpress').checked;
+
+    filtered = filtered.filter(t => {
+      const type = (t.train_type || '').toLowerCase();
+      if (!sf && type.includes('superfast')) return false;
+      if (!vande && type.includes('vande')) return false;
+      if (!shatabdi && type.includes('shatabdi')) return false;
+      if (!exp && (type.includes('express') && !type.includes('superfast'))) return false;
+      return true;
+    });
+
+    // Sort
+    const sortBy = document.getElementById('sortBySelect').value;
+    if (sortBy === 'duration') {
+      filtered.sort((a, b) => (a.duration || '').localeCompare(b.duration || ''));
+    } else if (sortBy === 'fare') {
+      filtered.sort((a, b) => (a.fare || 0) - (b.fare || 0));
+    } else if (sortBy === 'availability') {
+      filtered.sort((a, b) => (b.available_tatkal || 0) - (a.available_tatkal || 0));
+    }
+
+    renderTrainList(filtered);
+  }
+
+  function resetFilters(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    document.querySelector('input[name="depTime"][value="all"]').checked = true;
+    document.getElementById('typeSuperfast').checked = true;
+    document.getElementById('typeVande').checked = true;
+    document.getElementById('typeShatabdi').checked = true;
+    document.getElementById('typeExpress').checked = true;
+    document.getElementById('sortBySelect').value = 'departure';
+    filterResults();
+    toast.info('Filters Reset', 'Displaying all available trains.');
+  }
+
+  // ── Render Train List ────────────────────────────────────────────────────
+  function renderTrainList(trains) {
+    const container = document.getElementById('trainsList');
+    if (!container) return;
+
+    if (!trains || trains.length === 0) {
+      container.innerHTML = `
+        <div class="card" style="text-align:center;color:var(--text-muted);padding:3rem;">
+          No trains found matching the selected filters.<br>
+          <button type="button" class="btn btn-outline" style="margin-top:1rem;" onclick="resetFilters(event)">Clear Filters</button>
+        </div>
+      `;
+      return;
+    }
+
+    const fromVal = document.getElementById('fromStation').value.trim();
+    const toVal = document.getElementById('toStation').value.trim();
+    const dateVal = document.getElementById('journeyDate').value;
+    const pCount = bookingState.targetPassengerCount;
+
+    container.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+        <h3 style="font-size:1.15rem;font-weight:900;color:var(--primary);">
+          ${trains.length} Trains Found &bull; ${fromVal} → ${toVal} (${dateVal})
+        </h3>
+        <span style="font-size:0.8rem;color:var(--text-muted);font-weight:700;">
+          ${pCount} Passenger${pCount > 1 ? 's' : ''}
+        </span>
+      </div>
+
+      ${trains.map(t => `
+        <div class="train-item ${t.is_demo ? 'demo-train' : ''} fade-in">
+          <div class="train-header">
+            <div>
+              <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+                <span class="train-num">${t.train_number}</span>
+                <span class="train-name">${t.name}</span>
+                <span class="train-type-badge">${t.train_type}</span>
+                ${t.is_demo ? '<span style="background:var(--gold-subtle);color:var(--gold);border:1px solid #fcd34d;padding:0.15rem 0.55rem;border-radius:4px;font-size:0.72rem;font-weight:800;">⭐ DEMO TRAIN</span>' : ''}
+              </div>
+              <div class="train-meta-bar">
+                <span>Runs On: <strong>${t.running_days}</strong></span>
+                <span>&bull;</span>
+                <span>Distance: <strong>${t.distance_km} km</strong></span>
+                <span>&bull;</span>
+                <span>Classes: <strong>${t.classes_available}</strong></span>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-weight:900;color:var(--primary);font-size:1.1rem;">${t.seat_class} &bull; ${t.quota}</span>
+            </div>
+          </div>
+
+          <div class="train-body-grid">
+            <div class="station-box">
+              <div class="time-val">${t.departure_time}</div>
+              <div class="city-val">${t.source} (${t.source_code})</div>
+            </div>
+
+            <div class="duration-box">
+              <div style="font-weight:700;color:var(--text);font-size:0.8rem;">${t.duration}</div>
+              <div class="duration-line"></div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">${t.distance_km} km</div>
+            </div>
+
+            <div class="station-box">
+              <div class="time-val">${t.arrival_time}</div>
+              <div class="city-val">${t.destination} (${t.destination_code})</div>
+            </div>
+
+            <div style="text-align:center;">
+              <span class="avail-chip ${t.available_tatkal >= pCount ? 'avail-green' : 'avail-red'}">
+                ${t.available_tatkal > 0 ? `🟢 AVAILABLE (${t.available_tatkal})` : '🔴 WAITLIST'}
+              </span>
+              <div style="font-size:0.85rem;color:var(--text-muted);margin-top:4px;">
+                Fare: <strong style="color:var(--accent);font-size:1.1rem;">₹${t.fare * pCount}</strong>
+                <span style="font-size:0.75rem;">(₹${t.fare} &times; ${pCount})</span>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:0.45rem;">
+              <button type="button" class="btn btn-accent" onclick="selectTrain(${t.id}, event)">
+                SELECT TRAIN →
+              </button>
+              <button type="button" class="btn btn-outline" style="font-size:0.8rem;padding:0.35rem 0.75rem;" onclick="viewTrainDetails(${t.id}, event)">
+                ℹ️ VIEW DETAILS
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    `;
+  }
+
+  // ── Quick Check PNR ──────────────────────────────────────────────────────
+  async function quickCheckPnr(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    const pnr = document.getElementById('quickPnrInput').value.trim().toUpperCase();
+    if (!pnr) {
+      toast.error('Missing PNR', 'Please enter a 10-character PNR number.');
+      return;
+    }
+
+    try {
+      const res = await apiGet(`/api/ticket/${pnr}`);
+      const t = res.ticket;
+      document.getElementById('quickPnrResult').innerHTML = `
+        <div class="card" style="margin-bottom:0;border:2px solid var(--primary);background:#f8fafc;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <span class="ticket-pnr-badge">${t.pnr}</span>
+            <span class="avail-chip ${t.status === 'CONFIRMED' ? 'avail-green' : 'avail-red'}">
+              ${t.status === 'CONFIRMED' ? '✓ CONFIRMED' : t.status}
+            </span>
+          </div>
+          <div style="font-size:1.15rem;font-weight:800;color:var(--primary);margin-bottom:0.5rem;">${t.train_number} — ${t.train_name}</div>
+          <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">
+            ${t.source} → ${t.destination} &bull; Date: <strong>${t.journey_date}</strong> &bull; Class: <strong>${t.seat_class}</strong>
+          </div>
+          <div style="background:#fff;padding:1rem;border-radius:6px;border:1px solid var(--border-light);">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.5rem;">Passenger Berths</div>
+            ${t.passengers.map(p => `
+              <div style="display:flex;justify-content:space-between;font-size:0.9rem;border-bottom:1px solid var(--border-light);padding:0.35rem 0;">
+                <span><strong>${p.name}</strong> (${p.gender}, ${p.age} yrs)</span>
+                <span style="color:var(--accent);font-weight:900;font-family:var(--mono);">${p.coach} &bull; Seat ${p.seat_number}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } catch (err) {
+      toast.error('PNR Not Found', `No active ticket found for PNR ${pnr}`);
+      document.getElementById('quickPnrResult').innerHTML = `
+        <div style="background:var(--danger-subtle);color:var(--danger-dark);padding:1rem;border-radius:8px;border:1px solid var(--danger-border);font-weight:700;">
+          ❌ No booking records found for PNR "${pnr}". Please verify the number.
+        </div>
+      `;
+    }
+  }
+
+  // ── Train Details Modal ──────────────────────────────────────────────────
+  async function viewTrainDetails(trainId, e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+    }
+    try {
+      const details = await apiGet(`/api/trains/${trainId}`);
+      renderTrainDetailsModal(details, 'trainDetailsModalContent');
+      document.getElementById('trainDetailsModal').classList.add('active');
+    } catch (err) {
+      toast.error('Details Error', 'Could not load train specifications.');
+    }
+  }
+
+  function closeTrainDetailsModal(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    document.getElementById('trainDetailsModal').classList.remove('active');
+  }
+
+  function onModalOverlayClick(e) {
+    if (e.target.id === 'trainDetailsModal') closeTrainDetailsModal(e);
+  }
+
+  function selectTrainAndCloseModal(trainId, e) {
+    closeTrainDetailsModal(e);
+    selectTrain(trainId, e);
+  }
+
+  // ── Select Train & Load Seat Map ─────────────────────────────────────────
+  async function selectTrain(trainId, e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+    }
+    currentTrainId = trainId;
+    bookingState.trainId = trainId;
+    selectedSeatsList = [];
+    bookingState.selectedSeatsList = [];
+    updateSeatSelectionUI();
+    goToStage('stageSeatSelect', true, true);
+    await loadSeatMap(trainId);
+  }
+
+  async function loadSeatMap(trainId) {
+    try {
+      const data = await apiGet(`/api/seats?train_id=${trainId}`);
+      seatsData = data.seats || [];
+      bookingState.seatsData = seatsData;
+      if (data.train) {
+        bookingState.selectedTrain = data.train;
+        const titleEl = document.getElementById('selectedTrainName');
+        if (titleEl) titleEl.textContent = `${data.train.name} (${data.train.train_number})`;
+      }
+      renderCoachLayout(bookingState.seatsData, 'coachLayout', bookingState.selectedSeatsList, bookingState.targetPassengerCount, onSeatToggled);
+    } catch (err) {
+      toast.error('Seat Map Error', 'Could not load coach layout.');
+    }
+  }
+
+  function onSeatToggled(seatNumber, seatObj) {
+    const idx = bookingState.selectedSeatsList.indexOf(seatNumber);
+    if (idx > -1) {
+      bookingState.selectedSeatsList.splice(idx, 1);
+    } else {
+      if (bookingState.selectedSeatsList.length >= 3) {
+        toast.warning('Limit Reached', 'Maximum 3 seats allowed per booking.');
+        return;
+      }
+      bookingState.selectedSeatsList.push(seatNumber);
+      if (bookingState.selectedSeatsList.length > bookingState.targetPassengerCount) {
+        bookingState.targetPassengerCount = bookingState.selectedSeatsList.length;
+        targetPassengerCount = bookingState.targetPassengerCount;
+        const sel = document.getElementById('passengerCountSelect');
+        if (sel) sel.value = bookingState.targetPassengerCount.toString();
+      }
+    }
+    selectedSeatsList = bookingState.selectedSeatsList;
+
+    // Re-render layout & update UI without any scroll jumps
+    renderCoachLayout(bookingState.seatsData, 'coachLayout', bookingState.selectedSeatsList, bookingState.targetPassengerCount, onSeatToggled);
+    updateSeatSelectionUI();
+  }
+
+  function updateSeatSelectionUI() {
+    const bar = document.getElementById('seatActionBar');
+    const display = document.getElementById('selectedSeatsDisplay');
+    const prompt = document.getElementById('seatStatusPrompt');
+    const fare = document.getElementById('totalFareDisplay');
+    const badge = document.getElementById('seatSelectionCounterBadge');
+    const btn = document.getElementById('btnContinueToPassenger');
+
+    const count = bookingState.selectedSeatsList.length;
+    const target = bookingState.targetPassengerCount;
+    badge.textContent = `Selected: ${count} / ${target}`;
+
+    if (count === 0) {
+      bar.style.display = 'none';
+      return;
+    }
+
+    bar.style.display = 'flex';
+    display.textContent = bookingState.selectedSeatsList.join(', ');
+    fare.textContent = `₹${(count * 1245).toLocaleString('en-IN')}`;
+
+    if (count < target) {
+      const diff = target - count;
+      prompt.textContent = `${count} / ${target} seats selected`;
+      prompt.style.color = 'var(--gold)';
+      btn.disabled = true;
+      btn.textContent = `SELECT ${diff} MORE SEAT(S)`;
+    } else {
+      prompt.textContent = `${count} / ${target} seats selected`;
+      prompt.style.color = 'var(--success-dark)';
+      btn.disabled = false;
+      btn.textContent = 'CONTINUE TO PASSENGER DETAILS →';
+    }
+  }
+
+  // ── Backend-First Atomic Seat Hold ───────────────────────────────────────
+  async function holdSeatsAndProceed(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    if (bookingState.selectedSeatsList.length === 0) {
+      toast.error('Incomplete Selection', 'Please select at least 1 seat.');
+      return;
+    }
+    if (bookingState.selectedSeatsList.length > 3) {
+      toast.error('Limit Exceeded', 'Maximum 3 seats allowed per booking.');
+      return;
+    }
+
+    const btn = document.getElementById('btnContinueToPassenger');
+    btn.disabled = true;
+    btn.innerHTML = '🔄 VERIFYING SEATS WITH BACKEND...';
+
+    const date = document.getElementById('journeyDate').value;
+    const idempotencyKey = 'hold-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9);
+
+    try {
+      const res = await apiPost('/booking/hold', {
+        train_id: bookingState.trainId,
+        seat_ids: bookingState.selectedSeatsList,
+        passenger_count: bookingState.selectedSeatsList.length,
+        idempotency_key: idempotencyKey,
+        user_id: 1,
+        journey_date: date,
+        user_name: 'Demo Passenger',
+      });
+
+      currentHoldPnr = res.pnr;
+      bookingState.currentHoldPnr = res.pnr;
+      bookingState.expiresAt = res.expires_at;
+
+      renderPassengerForms(bookingState.selectedSeatsList);
+
+      document.getElementById('passSessionPnr').textContent = res.pnr;
+      document.getElementById('passHeldSeatsBadge').textContent = bookingState.selectedSeatsList.join(', ');
+      document.getElementById('passengerTotalFareBadge').textContent = `₹${(res.total_fare || (bookingState.selectedSeatsList.length * 1245)).toLocaleString('en-IN')}`;
+
+      document.getElementById('paySeatsSummary').textContent = bookingState.selectedSeatsList.join(', ');
+      document.getElementById('payPnrDisplay').textContent = res.pnr;
+      document.getElementById('payPassengerCountDisplay').textContent = `${bookingState.selectedSeatsList.length} Passenger(s)`;
+      document.getElementById('payTotalAmountText').textContent = `₹${(bookingState.selectedSeatsList.length * 1245).toLocaleString('en-IN')}`;
+
+      startPaymentCountdown(res.expires_at);
+      goToStage('stagePassenger', true, true);
+      toast.success('Seats Secured!', `${bookingState.selectedSeatsList.join(', ')} held for 5 minutes.`);
+    } catch (err) {
+      const reason = err.data?.detail?.reason || err.data?.detail?.message || 'Seat(s) no longer available. Please select again.';
+      toast.error('Hold Failed', reason);
+      btn.disabled = false;
+      btn.textContent = 'CONTINUE TO PASSENGER DETAILS →';
+      await loadSeatMap(bookingState.trainId);
+    }
+  }
+
+  // ── Dynamic Passenger Forms ──────────────────────────────────────────────
+  function renderPassengerForms(seats) {
+    const container = document.getElementById('passengerFormsContainer');
+    const defaultNames = ['Mokshith Krishna', 'Rahul Sharma', 'Ananya Iyer'];
+
+    container.innerHTML = seats.map((sNum, idx) => `
+      <div style="background:var(--surface2);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:1.25rem;margin-bottom:1rem;" class="fade-in">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+          <h4 style="font-weight:900;color:var(--primary);font-size:0.92rem;">PASSENGER ${idx + 1}</h4>
+          <span style="background:var(--primary-subtle);color:var(--primary);border:1px solid #bfdbfe;padding:0.2rem 0.6rem;border-radius:4px;font-weight:800;font-size:0.78rem;">
+            Assigned Berth: <strong>B1 - ${sNum}</strong>
+          </span>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:0.75rem;">
+          <div class="form-group">
+            <label for="passName_${idx}">Full Name (as per Govt ID)</label>
+            <input type="text" id="passName_${idx}" value="${defaultNames[idx] || `Passenger ${idx + 1}`}" placeholder="Full Name">
+          </div>
+          <div class="form-group">
+            <label for="passAge_${idx}">Age</label>
+            <input type="number" id="passAge_${idx}" value="${24 + (idx * 3)}" min="5" max="100">
+          </div>
+          <div class="form-group">
+            <label for="passGender_${idx}">Gender</label>
+            <select id="passGender_${idx}">
+              <option value="Male" selected>Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="passBerth_${idx}">Berth Preference</label>
+            <select id="passBerth_${idx}">
+              <option value="No Preference" selected>No Preference</option>
+              <option value="Lower">Lower</option>
+              <option value="Middle">Middle</option>
+              <option value="Upper">Upper</option>
+              <option value="Side Lower">Side Lower</option>
+              <option value="Side Upper">Side Upper</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── Save Passengers & Proceed to Payment ──────────────────────────────────
+  async function savePassengersAndProceedToPay(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    if (!bookingState.currentHoldPnr) {
+      toast.error('Session Lost', 'Please select seats again.');
+      goToStage('stageSeatSelect', true, true);
+      return;
+    }
+
+    const passengersData = [];
+    for (let i = 0; i < bookingState.selectedSeatsList.length; i++) {
+      const name = document.getElementById(`passName_${i}`).value.trim() || `Passenger ${i + 1}`;
+      const age = parseInt(document.getElementById(`passAge_${i}`).value) || 28;
+      const gender = document.getElementById(`passGender_${i}`).value || 'Male';
+      passengersData.push({ name, age, gender });
+    }
+    bookingState.passengersData = passengersData;
+
+    const phone = document.getElementById('primaryContactPhone').value.trim() || '9876543210';
+
+    try {
+      await apiPost('/api/passenger-details', {
+        pnr: bookingState.currentHoldPnr,
+        passengers: passengersData,
+        primary_phone: phone,
+      });
+
+      const breakdownEl = document.getElementById('paySeatsBreakdownList');
+      breakdownEl.innerHTML = passengersData.map((p, idx) => `
+        <div style="display:flex;justify-content:space-between;color:var(--text);margin-bottom:2px;">
+          <span>${p.name} (B1 - ${bookingState.selectedSeatsList[idx]}):</span>
+          <span>₹1,245</span>
+        </div>
+      `).join('');
+
+      goToStage('stagePayment', true, true);
+    } catch (err) {
+      toast.error('Details Error', err.data?.detail?.message || 'Could not save passenger details.');
+    }
+  }
+
+  // ── Payment Countdown Timer ──────────────────────────────────────────────
+  function startPaymentCountdown(expiresAtStr) {
+    if (bookingState.holdCountdownTimer) clearInterval(bookingState.holdCountdownTimer);
+
+    const expTime = expiresAtStr ? new Date(expiresAtStr + 'Z').getTime() : Date.now() + 300000;
+    const totalSecs = 300;
+
+    const tick = () => {
+      const remainingMs = expTime - Date.now();
+      const remainingSecs = Math.max(0, Math.floor(remainingMs / 1000));
+
+      const timerEl = document.getElementById('payCountdown');
+      const progEl = document.getElementById('payProgressBar');
+
+      if (timerEl) {
+        timerEl.textContent = formatCountdown(remainingSecs);
+        const pct = Math.max(0, (remainingSecs / totalSecs) * 100);
+        if (progEl) progEl.style.width = `${pct}%`;
+
+        if (remainingSecs <= 60) {
+          timerEl.style.color = 'var(--danger)';
+        } else {
+          timerEl.style.color = 'var(--accent)';
+        }
+      }
+
+      if (remainingSecs <= 0) {
+        clearInterval(bookingState.holdCountdownTimer);
+        const payBtn = document.getElementById('btnPayNow');
+        if (payBtn) payBtn.disabled = true;
+        document.getElementById('payStatusMsg').innerHTML = `
+          <div style="background:var(--danger-subtle);color:var(--danger-dark);padding:0.75rem;border-radius:6px;border:1px solid var(--danger-border);">
+            ⏰ <strong>Hold Expired:</strong> Your 5-minute reservation window expired. Seats have been returned to available inventory.
+          </div>
+        `;
+        toast.error('Hold Expired', 'Seats released back to inventory.');
+      }
+    };
+
+    tick();
+    bookingState.holdCountdownTimer = setInterval(tick, 1000);
+  }
+
+  function selectPayTab(tabEl, method, e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+    tabEl.classList.add('active');
+    selectedPayMethod = method;
+    bookingState.selectedPayMethod = method;
+
+    const detailContainer = document.getElementById('payMethodDetail');
+    if (method === 'UPI') {
+      detailContainer.innerHTML = `
+        <div class="form-group">
+          <label for="upiVpa">Virtual Payment Address (VPA) / UPI ID</label>
+          <input type="text" id="upiVpa" value="demo_user@okhdfcbank" placeholder="yourname@upi">
+        </div>
+      `;
+    } else if (method === 'Card') {
+      detailContainer.innerHTML = `
+        <div class="form-group" style="margin-bottom:0.75rem;">
+          <label>Debit / Credit Card Number</label>
+          <input type="text" value="4532 •••• •••• 8921" placeholder="Card Number">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+          <div class="form-group">
+            <label>Expiry (MM/YY)</label>
+            <input type="text" value="12/28" placeholder="MM/YY">
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input type="password" value="892" placeholder="CVV">
+          </div>
+        </div>
+      `;
+    } else if (method === 'NetBanking') {
+      detailContainer.innerHTML = `
+        <div class="form-group">
+          <label>Select Bank</label>
+          <select>
+            <option selected>State Bank of India (SBI)</option>
+            <option>HDFC Bank</option>
+            <option>ICICI Bank</option>
+            <option>Axis Bank</option>
+            <option>Punjab National Bank</option>
+          </select>
+        </div>
+      `;
+    }
+  }
+
+  // ── Execute Payment ──────────────────────────────────────────────────────
+  async function executePayment(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+    }
+    if (!bookingState.currentHoldPnr) return;
+
+    const btn = document.getElementById('btnPayNow');
+    btn.disabled = true;
+    btn.textContent = '⏳ Processing Atomic Payment…';
+
+    try {
+      const res = await apiPost('/api/payment', {
+        pnr: bookingState.currentHoldPnr,
+        method: bookingState.selectedPayMethod,
+      });
+
+      if (bookingState.holdCountdownTimer) clearInterval(bookingState.holdCountdownTimer);
+
+      bookingState.ticket = res.ticket;
+      goToStage('stageTicket', true, true);
+      renderDigitalTicket(res.ticket, 'ticketContainer');
+      toast.success('Booking Confirmed!', `PNR ${res.pnr} issued.`);
+    } catch (err) {
+      const reason = err.data?.detail?.reason || 'Payment processing failed';
+      document.getElementById('payStatusMsg').innerHTML = `
+        <div style="background:var(--danger-subtle);color:var(--danger-dark);padding:0.75rem;border-radius:6px;border:1px solid var(--danger-border);">
+          ❌ ${reason}
+        </div>
+      `;
+      toast.error('Payment Error', reason);
+      btn.disabled = false;
+      btn.textContent = '💳 PAY & GENERATE CONFIRMED TICKET';
+    }
+  }
+</script>
+</body>
+</html>
